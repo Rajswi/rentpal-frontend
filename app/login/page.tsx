@@ -25,9 +25,13 @@ export default function LoginPage() {
       if (!res.ok) {
         throw new Error(data.error || 'Failed to login');
       }
-      // Assuming the backend returns { token, user: { id, name, email } }
+      
       login(data.token, data.user);
-      router.push('/items');
+
+      
+      router.push('/home'); 
+      
+
     } catch (err: any) {
       setError(err.message);
     }

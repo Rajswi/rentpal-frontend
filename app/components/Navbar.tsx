@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useAuth } from '../context/AuthContext';
-import { FiLogIn, FiLogOut, FiUserPlus, FiPlusCircle } from 'react-icons/fi';
+import { FiLogIn, FiLogOut, FiUserPlus, FiPlusCircle, FiGrid } from 'react-icons/fi';
 
 const Navbar = () => {
   const { isAuthenticated, logout, user } = useAuth();
@@ -19,9 +19,14 @@ const Navbar = () => {
           <div className="flex items-center space-x-4">
             {isAuthenticated ? (
               <>
+                <Link href="/home">
                 <span className="text-gray-300">Hi, {user?.name}</span>
+                </Link>
                 <Link href="/items/add" className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 transition-colors">
                   <FiPlusCircle className="mr-2" /> List Item
+                </Link>
+                <Link href="/items" className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 transition-colors">
+                  <FiGrid className="mr-2" /> Browse Item
                 </Link>
                 <button
                   onClick={logout}

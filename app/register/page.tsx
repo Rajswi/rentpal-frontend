@@ -20,7 +20,7 @@ export default function LoginPage() {
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ name, email, password }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -28,7 +28,7 @@ export default function LoginPage() {
       }
       // Assuming the backend returns { token, user: { id, name, email } }
       login(data.token, data.user);
-      router.push('/items');
+      router.push('/home');
     } catch (err: any) {
       setError(err.message);
     }
