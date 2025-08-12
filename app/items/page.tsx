@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import api from '../lib/api';
 
 interface Item {
   id: string;
@@ -21,10 +22,17 @@ export default function ItemsPage() {
   const [items, setItems] = useState<Item[]>([]);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/items') // ← change to your backend URL if needed
-      .then(res => res.json())
-      .then(data => setItems(data.items))
-      .catch(err => console.error('Failed to fetch items', err));
+    const loadItems = async () => {
+      try {
+        const data = await api.items.getAll();
+        setItems(data.items || data || []);
+      } catch (error) {
+        console.error('Failed to fetch items:', error);
+        setItems([]);
+      }
+    };
+
+    loadItems();
   }, []);
 
   return (

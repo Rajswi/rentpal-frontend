@@ -4,8 +4,9 @@ import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import api from '../lib/api';
 
-export default function LoginPage() {
+export default function RegisterPage() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -17,16 +18,7 @@ export default function LoginPage() {
     e.preventDefault();
     setError('');
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/register`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, password }),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        throw new Error(data.error || 'Failed to login');
-      }
-      // Assuming the backend returns { token, user: { id, name, email } }
+      const data = await api.auth.register(name, email, password);
       login(data.token, data.user);
       router.push('/home');
     } catch (err: any) {
@@ -74,9 +66,15 @@ export default function LoginPage() {
           </div>
           {error && <p className="text-red-400 text-sm text-center">{error}</p>}
           <button type="submit" className="w-full py-3 font-bold text-white bg-purple-600 rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 focus:ring-offset-gray-900 transition-all duration-300">
-            Login
+            Register
           </button>
         </form>
+        <p className="text-center text-gray-400">
+          Already have an account?{' '}
+          <Link href="/login" className="font-medium text-purple-400 hover:underline">
+            Login here
+          </Link>
+        </p>
       </div>
     </div>
   );
